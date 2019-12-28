@@ -20,11 +20,11 @@ class UserView(View):
         try:
             validate_email(data["email"])
             if len(data["nickname"]) < 2 :
-                return JsonResponse({'message':'nickname_short'}, status = 400)
+                return JsonResponse({'message':'NICKNAME_SHORT'}, status = 400)
             if len(data["password"]) < 8 :
-                return JsonResponse({'message':'password_short'}, status = 400)
+                return JsonResponse({'message':'PASSWORD_SHORT'}, status = 400)
             if not check_password.match(data["password"]) :
-                return JsonResponse({'message':'password_include_character_number'}, status = 400) 
+                return JsonResponse({'message':'UNSATISFIED_PASSWORD'}, status = 400) 
             else :
                 hashed_password = bcrypt.hashpw(data["password"].encode('utf-8'), bcrypt.gensalt())
                 Users(
@@ -32,16 +32,13 @@ class UserView(View):
                     email    = data["email"],
                     password = hashed_password.decode('utf-8')
                 ).save()
-                return JsonResponse({'message':'Success'}, status = 200)
+                return JsonResponse({'message':'SUCCESS'}, status = 200)
         
         except ValidationError:
-            return JsonResponse({'message':'Enter a valid email address'}, status = 400 )
+            return JsonResponse({'message':'NOT_EMAIL'}, status = 400 )
         except KeyError:
-            return JsonResponse({'message':'Invalid_Keys'}, status = 400)
+            return JsonResponse({'message':'INVALID_KEYS'}, status = 400)
         except IntegrityError:
-            return JsonResponse({'message':'Excepted_Data'}, status= 401)
-
-
-
+            return JsonResponse({'message':'EXCEPTED_DATA'}, status= 401)
 
 
