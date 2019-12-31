@@ -65,3 +65,21 @@ class ProductSubImages(models.Model):
     class Meta:
         db_table = 'product_sub_images'
 
+
+class ProductOptionTitles(models.Model):
+    product      = models.ForeignKey(Products, on_delete=models.CASCADE)
+    option_title = models.CharField(max_length = 100, null=True)
+    
+    class Meta:
+        db_table = 'product_option_titles'
+
+
+class ProductOptionDetails(models.Model):
+    product_option_title = models.ForeignKey(ProductOptionTitles, on_delete=models.CASCADE)
+    option_detail        = models.CharField(max_length = 100, null=True)
+
+    class Meta:
+        db_table = 'product_option_details'
+
+
+
