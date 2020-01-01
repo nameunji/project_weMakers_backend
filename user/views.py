@@ -11,6 +11,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
 from .models           import Users
+from .utils            import login_decorator
 
 
 class UserView(View):
@@ -63,3 +64,6 @@ class AuthView(View):
             return JsonResponse({'message': 'NOT_EMAIL'}, status = 400)
         except TypeError:
             return JsonResponse({'message': 'INVALID_VALUE'}, status = 400)
+
+
+
