@@ -1,4 +1,5 @@
-from django.db import models
+from django.db   import models
+from user.models import Users
 
 class ProductMainCategories(models.Model):
     name = models.CharField(max_length = 50)
@@ -41,6 +42,11 @@ class Products(models.Model):
     detail_content   = models.TextField()
     info_detail      = models.TextField()
 
+    order            = models.ManyToManyField(Users, through='Orders')
+    review           = models.ManyToManyField(Users, through='ProductReviews', related_name='product_reviews_set')
+    question         = models.ManyToManyField(Users, through='ProductQuestions', related_name='product_questions_set')
+    user_like        = models.ManyToManyField(Users, through='UserLikeProducts', related_name='user_like_products_set')
+
     class Meta:
         db_table = 'products'
 
@@ -80,6 +86,68 @@ class ProductOptionDetails(models.Model):
 
     class Meta:
         db_table = 'product_option_details'
+
+
+class OrderStatus(models.Model):
+    status = models.CharField(max_length = 50)
+
+    class Meta:
+        db_table = 'order_status'
+
+
+class Orders(models.Model):
+    product         = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user            = models.ForeignKey(Users, on_delete=models.CASCADE)
+    order_status    = models.ForeignKey(OrderStatus, on_delete=models.SET_NULL, null=True)
+    order_number    = models.IntegerField(unique = True)
+    quantity        = models.SmallIntegerField()
+    total_amount    = models.DecimalField(max_digits=11, decimal_places=2)
+    delivery_number = models.CharField(max_length = 50, null=True)
+    created_at      = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'orders'
+
+
+class ProductReviews(models.Model):
+    product    = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user       = models.ForeignKey(Users, on_delete=models.CASCADE)
+    content    = models.CharField(max_length=500)
+    image      = models.URLField(max_length=2000, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    grade      = models.SmallIntegerField()
+
+    class Meta:
+        db_table = 'product_reviews'
+
+
+class ProductQuestions(models.Model):
+    product    = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user       = models.ForeignKey(Users, on_delete=models.CASCADE)
+    content    = models.CharField(max_length=1000)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta: 
+        db_table = 'product_questions'
+
+
+class ProductAnswers(models.Model):
+    question    = models.ForeignKey(ProductQuestions, on_delete=models.CASCADE)
+    content     = models.CharField(max_length = 1000)
+    created_at  = models.DateTimeField(auto_now_add=True)
+    updated_at  = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'product_answers'
+
+
+class UserLikeProducts(models.Model):
+    user    = models.ForeignKey(Users, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'user_like_products'
 
 
 
