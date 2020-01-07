@@ -15,7 +15,6 @@ class ProductSubCategories(models.Model):
     class Meta:
         db_table = 'product_sub_categories'
 
-
 class Brands(models.Model):
     main_category    = models.ForeignKey(ProductMainCategories, on_delete=models.CASCADE)
     name             = models.CharField(max_length = 100)
@@ -26,8 +25,8 @@ class Brands(models.Model):
     class Meta:
         db_table = 'brands'
 
-
-class Products(models.Model):
+class Product(models.Model):
+    product_info     = models.ForeignKey(ProductInfo, on_delete=models.CASCADE)
     main_category    = models.ForeignKey(ProductMainCategories, on_delete=models.CASCADE)
     sub_category     = models.ForeignKey(ProductSubCategories, on_delete=models.CASCADE)
     brand            = models.ForeignKey(Brands, on_delete=models.CASCADE)
