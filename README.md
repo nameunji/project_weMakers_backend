@@ -20,6 +20,6 @@
 - [frontend](https://github.com/wecode-bootcamp-korea/weMakers_frontend) git
 
 ## Contact
-Nam-Eunji, namji117@gmail.com
+Eunji Nam, namji117@gmail.com
 
 
