@@ -83,6 +83,7 @@ class ProductOptionTitles(models.Model):
 class ProductOptionDetails(models.Model):
     product_option_title = models.ForeignKey(ProductOptionTitles, on_delete=models.CASCADE)
     option_detail        = models.CharField(max_length = 100, null=True)
+    price                = models.DecimalField(max_digits=11, decimal_places=2, null=True)
 
     class Meta:
         db_table = 'product_option_details'
