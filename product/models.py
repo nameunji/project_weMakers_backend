@@ -151,4 +151,18 @@ class UserLikeProducts(models.Model):
         db_table = 'user_like_products'
 
 
+class Event(models.Model):
+    title      = models.CharField(max_length = 300)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'events'
+    
+class EventProduct(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'event_products'
 
