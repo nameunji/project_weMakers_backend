@@ -2,7 +2,7 @@ asgiref==3.2.3
 bcrypt==3.1.7
 certifi==2019.11.28
 cffi==1.13.2
-Django==3.0.1
+Django==3.1.12
 django-cors-headers==3.2.0
 mysqlclient==1.4.6
 pycparser==2.19
